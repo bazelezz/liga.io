@@ -1,0 +1,1188 @@
+<!DOCTYPE html>
+<html lang="ru" class="scroll-smooth">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>СК «Лига» — Футбол и единоборства для детей от 3 лет | Тверь</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&family=Oswald:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script>
+tailwind.config = {
+  theme: {
+    extend: {
+      colors: {
+        brand: '#22C55E',
+        'brand-dark': '#16A34A',
+        'brand-light': '#BBF7D0',
+        lime: '#4ADE80',
+        pitch: '#1a4d2e',
+        'pitch-dark': '#0f331e',
+        'pitch-light': '#2a6b3f',
+        dark: '#0d1f14',
+        'dark-card': '#132a1c',
+        'dark-light': '#1e3d28',
+      },
+      fontFamily: {
+        display: ['Oswald', 'sans-serif'],
+        body: ['Manrope', 'sans-serif'],
+      }
+    }
+  }
+}
+</script>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Manrope', sans-serif; background: #0d1f14; color: #fff; overflow-x: hidden; }
+
+  .grass-pattern {
+    background-color: #0f331e;
+    background-image: 
+      repeating-linear-gradient(90deg, rgba(34,197,94,0.03) 0px, rgba(34,197,94,0.03) 2px, transparent 2px, transparent 100px),
+      repeating-linear-gradient(0deg, rgba(0,0,0,0.05) 0px, rgba(0,0,0,0.05) 4px, transparent 4px, transparent 8px),
+      radial-gradient(ellipse at 50% 0%, rgba(34,197,94,0.1) 0%, transparent 60%);
+  }
+
+  .field-stripes {
+    background: repeating-linear-gradient(
+      90deg,
+      rgba(34,197,94,0.04) 0px,
+      rgba(34,197,94,0.04) 60px,
+      transparent 60px,
+      transparent 120px
+    );
+  }
+
+  @keyframes fadeInUp {
+    0% { opacity: 0; transform: translateY(40px); }
+    100% { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes fadeInLeft {
+    0% { opacity: 0; transform: translateX(-40px); }
+    100% { opacity: 1; transform: translateX(0); }
+  }
+  @keyframes fadeInRight {
+    0% { opacity: 0; transform: translateX(40px); }
+    100% { opacity: 1; transform: translateX(0); }
+  }
+  @keyframes bounce-ball {
+    0%, 100% { transform: translateY(0) rotate(0deg); }
+    50% { transform: translateY(-35px) rotate(180deg); }
+  }
+  @keyframes roll-ball {
+    0% { transform: translateX(-100%) rotate(0deg); }
+    100% { transform: translateX(100vw) rotate(1080deg); }
+  }
+  @keyframes float {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-15px); }
+  }
+  @keyframes spin-slow {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+  @keyframes pulse-glow {
+    0%, 100% { box-shadow: 0 0 20px rgba(34,197,94,0.2); }
+    50% { box-shadow: 0 0 40px rgba(34,197,94,0.4); }
+  }
+  @keyframes streak {
+    0% { transform: translateX(-100%) rotate(-12deg); opacity: 0; }
+    15% { opacity: 1; }
+    100% { transform: translateX(200%) rotate(-12deg); opacity: 0; }
+  }
+  @keyframes grass-sway {
+    0%, 100% { transform: skewX(0deg); }
+    50% { transform: skewX(2deg); }
+  }
+  @keyframes marquee {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+  }
+  @keyframes trail {
+    0% { transform: translateX(-100%) scaleX(0); opacity: 0; }
+    50% { opacity: 1; }
+    100% { transform: translateX(100%) scaleX(1); opacity: 0; }
+  }
+
+  .animate-on-scroll { opacity: 0; transform: translateY(40px); transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1); }
+  .animate-on-scroll.visible { opacity: 1; transform: translateY(0); }
+  .animate-on-scroll.from-left { transform: translateX(-40px); }
+  .animate-on-scroll.from-left.visible { transform: translateX(0); }
+  .animate-on-scroll.from-right { transform: translateX(40px); }
+  .animate-on-scroll.from-right.visible { transform: translateX(0); }
+
+  .bounce-ball { animation: bounce-ball 2s ease-in-out infinite; }
+  .spin-slow { animation: spin-slow 20s linear infinite; }
+  .pulse-glow { animation: pulse-glow 3s ease-in-out infinite; }
+  .float-anim { animation: float 4s ease-in-out infinite; }
+  .marquee-track { animation: marquee 30s linear infinite; }
+
+  ::-webkit-scrollbar { width: 8px; }
+  ::-webkit-scrollbar-track { background: #0d1f14; }
+  ::-webkit-scrollbar-thumb { background: #22C55E; border-radius: 4px; }
+  ::-webkit-scrollbar-thumb:hover { background: #16A34A; }
+
+  .mobile-menu { transform: translateX(100%); transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1); }
+  .mobile-menu.open { transform: translateX(0); }
+
+  .card-hover { transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1); }
+  .card-hover:hover { transform: translateY(-8px); box-shadow: 0 20px 40px rgba(0,0,0,0.3); }
+
+  .toast {
+    transform: translateY(100px); opacity: 0;
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .toast.show { transform: translateY(0); opacity: 1; }
+
+  .field-line { stroke-dasharray: 8 8; animation: dash 30s linear infinite; }
+  @keyframes dash { to { stroke-dashoffset: -1000; } }
+
+  .sport-card {
+    border-radius: 16px;
+    background: linear-gradient(145deg, #132a1c, #0f2417);
+    border: 1px solid rgba(34,197,94,0.08);
+  }
+
+  .grass-blade {
+    position: absolute;
+    bottom: 0;
+    width: 3px;
+    background: linear-gradient(to top, #22C55E, transparent);
+    border-radius: 3px 3px 0 0;
+    transform-origin: bottom center;
+    animation: grass-sway 3s ease-in-out infinite;
+  }
+
+  .branch-marker {
+    background: linear-gradient(135deg, #22C55E, #16A34A);
+    box-shadow: 0 4px 12px rgba(34,197,94,0.3);
+    color: #0d1f14;
+  }
+
+  .green-accent {
+    color: #22C55E;
+  }
+  .bg-green-soft {
+    background: rgba(34,197,94,0.1);
+    border: 1px solid rgba(34,197,94,0.25);
+  }
+</style>
+</head>
+<body class="grass-pattern">
+
+<!-- Decorative grass blades -->
+<div class="fixed bottom-0 left-0 right-0 h-24 pointer-events-none z-0 opacity-20">
+  <div class="grass-blade" style="left: 5%; height: 40px; animation-delay: 0s;"></div>
+  <div class="grass-blade" style="left: 12%; height: 60px; animation-delay: 0.5s;"></div>
+  <div class="grass-blade" style="left: 23%; height: 35px; animation-delay: 1s;"></div>
+  <div class="grass-blade" style="left: 34%; height: 55px; animation-delay: 0.3s;"></div>
+  <div class="grass-blade" style="left: 45%; height: 45px; animation-delay: 0.8s;"></div>
+  <div class="grass-blade" style="left: 56%; height: 65px; animation-delay: 0.2s;"></div>
+  <div class="grass-blade" style="left: 67%; height: 38px; animation-delay: 1.2s;"></div>
+  <div class="grass-blade" style="left: 78%; height: 52px; animation-delay: 0.6s;"></div>
+  <div class="grass-blade" style="left: 89%; height: 42px; animation-delay: 0.9s;"></div>
+  <div class="grass-blade" style="left: 95%; height: 58px; animation-delay: 0.4s;"></div>
+</div>
+
+<!-- Navigation -->
+<nav id="navbar" class="fixed top-0 left-0 right-0 z-50 transition-all duration-500">
+  <div class="max-w-7xl mx-auto px-6 md:px-8">
+    <div class="flex items-center justify-between h-20">
+      <a href="#hero" class="flex items-center gap-3 group">
+        <div class="relative w-11 h-11">
+          <svg viewBox="0 0 40 40" class="w-11 h-11 drop-shadow-lg">
+            <circle cx="20" cy="20" r="18" fill="#22C55E" stroke="#0d1f14" stroke-width="2"/>
+            <polygon points="20,6 23,14 32,14 25,20 27,28 20,24 13,28 15,20 8,14 17,14" fill="#0d1f14"/>
+          </svg>
+        </div>
+        <div>
+          <span class="font-display text-xl font-bold tracking-wide">СК <span class="text-brand">ЛИГА</span></span>
+        </div>
+      </a>
+
+      <div class="hidden lg:flex items-center gap-8">
+        <a href="#programs" class="nav-link text-sm font-medium tracking-wider uppercase text-gray-300 hover:text-brand transition-colors duration-300">Направления</a>
+        <a href="#about" class="nav-link text-sm font-medium tracking-wider uppercase text-gray-300 hover:text-brand transition-colors duration-300">О клубе</a>
+        <a href="#prices" class="nav-link text-sm font-medium tracking-wider uppercase text-gray-300 hover:text-brand transition-colors duration-300">Цены</a>
+        <a href="#branches" class="nav-link text-sm font-medium tracking-wider uppercase text-gray-300 hover:text-brand transition-colors duration-300">Филиалы</a>
+        <a href="#signup" class="nav-link text-sm font-medium tracking-wider uppercase text-gray-300 hover:text-brand transition-colors duration-300">Запись</a>
+        <a href="https://vk.com/liga_tver" target="_blank" class="ml-4 px-6 py-2.5 bg-brand text-dark text-sm font-bold uppercase tracking-wider rounded-full hover:bg-brand-dark transition-all duration-300 hover:shadow-[0_0_25px_rgba(34,197,94,0.4)] hover:scale-105">
+          Записаться
+        </a>
+      </div>
+
+      <button id="burger" class="lg:hidden relative w-8 h-6 flex flex-col justify-between group" onclick="toggleMenu()">
+        <span class="burger-line block h-0.5 w-full bg-white transition-all duration-300 origin-center rounded-full"></span>
+        <span class="burger-line block h-0.5 w-full bg-white transition-all duration-300 rounded-full"></span>
+        <span class="burger-line block h-0.5 w-full bg-white transition-all duration-300 origin-center rounded-full"></span>
+      </button>
+    </div>
+  </div>
+</nav>
+
+<!-- Mobile Menu -->
+<div id="mobileMenu" class="mobile-menu fixed inset-0 z-[60] bg-dark/98 backdrop-blur-xl flex flex-col items-center justify-center gap-8">
+  <button onclick="toggleMenu()" class="absolute top-6 right-6 w-10 h-10 flex items-center justify-center text-white hover:text-brand transition-colors">
+    <iconify-icon icon="lucide:x" width="28"></iconify-icon>
+  </button>
+  <a href="#programs" onclick="toggleMenu()" class="font-display text-3xl font-bold uppercase tracking-wider text-white hover:text-brand transition-colors">Направления</a>
+  <a href="#about" onclick="toggleMenu()" class="font-display text-3xl font-bold uppercase tracking-wider text-white hover:text-brand transition-colors">О клубе</a>
+  <a href="#prices" onclick="toggleMenu()" class="font-display text-3xl font-bold uppercase tracking-wider text-white hover:text-brand transition-colors">Цены</a>
+  <a href="#branches" onclick="toggleMenu()" class="font-display text-3xl font-bold uppercase tracking-wider text-white hover:text-brand transition-colors">Филиалы</a>
+  <a href="#signup" onclick="toggleMenu()" class="font-display text-3xl font-bold uppercase tracking-wider text-white hover:text-brand transition-colors">Запись</a>
+  <a href="https://vk.com/liga_tver" target="_blank" class="mt-4 px-8 py-3 bg-brand text-dark font-bold uppercase tracking-wider text-lg rounded-full">Записаться</a>
+</div>
+
+<!-- ============================================ -->
+<!-- 1. HERO SECTION -->
+<!-- ============================================ -->
+<section id="hero" class="relative min-h-screen flex items-center overflow-hidden">
+  <div class="absolute inset-0">
+    <div class="absolute inset-0 bg-gradient-to-b from-dark via-pitch-dark to-dark"></div>
+    <div class="absolute inset-0 field-stripes opacity-40"></div>
+    <div class="absolute top-0 left-1/4 w-96 h-96 bg-brand/5 rounded-full blur-[120px]"></div>
+    <div class="absolute top-0 right-1/4 w-96 h-96 bg-brand/5 rounded-full blur-[120px]"></div>
+  </div>
+
+  <svg class="absolute inset-0 w-full h-full opacity-[0.07]" viewBox="0 0 1200 800" preserveAspectRatio="xMidYMid slice">
+    <circle cx="600" cy="400" r="120" stroke="#22C55E" stroke-width="1.5" fill="none" class="field-line"/>
+    <line x1="600" y1="0" x2="600" y2="800" stroke="#22C55E" stroke-width="1.5" class="field-line"/>
+    <rect x="0" y="230" width="200" height="340" stroke="#22C55E" stroke-width="1.5" fill="none" class="field-line"/>
+    <rect x="1000" y="230" width="200" height="340" stroke="#22C55E" stroke-width="1.5" fill="none" class="field-line"/>
+    <rect x="20" y="20" width="1160" height="760" stroke="#22C55E" stroke-width="2" fill="none" class="field-line"/>
+  </svg>
+
+  <div class="absolute top-[15%] right-[10%] w-20 h-20 opacity-15 spin-slow">
+    <svg viewBox="0 0 60 60"><circle cx="30" cy="30" r="28" fill="#22C55E" stroke="#0d1f14" stroke-width="2"/><polygon points="30,8 33,18 42,18 35,24 37,34 30,28 23,34 25,24 18,18 27,18" fill="#0d1f14"/></svg>
+  </div>
+  <div class="absolute bottom-[25%] left-[5%] w-14 h-14 opacity-10 float-anim" style="animation-delay: 1s">
+    <svg viewBox="0 0 60 60"><circle cx="30" cy="30" r="28" fill="#22C55E" stroke="#0d1f14" stroke-width="2"/><polygon points="30,8 33,18 42,18 35,24 37,34 30,28 23,34 25,24 18,18 27,18" fill="#0d1f14"/></svg>
+  </div>
+
+  <div class="absolute top-[45%] left-0 w-10 h-10 opacity-[0.08]" style="animation: roll-ball 12s linear infinite;">
+    <svg viewBox="0 0 60 60"><circle cx="30" cy="30" r="28" fill="#22C55E" stroke="#0d1f14" stroke-width="2"/><polygon points="30,8 33,18 42,18 35,24 37,34 30,28 23,34 25,24 18,18 27,18" fill="#0d1f14"/></svg>
+  </div>
+
+  <div class="absolute top-[30%] left-0 w-[200%] h-px bg-gradient-to-r from-transparent via-brand/20 to-transparent" style="animation: streak 6s ease-in-out infinite;"></div>
+  <div class="absolute top-[65%] left-0 w-[200%] h-px bg-gradient-to-r from-transparent via-brand/15 to-transparent" style="animation: streak 8s ease-in-out infinite; animation-delay: 2s;"></div>
+
+  <div class="relative z-10 max-w-7xl mx-auto px-6 md:px-8 w-full pt-32 pb-20">
+    <div class="grid lg:grid-cols-12 gap-8 items-center">
+      <div class="lg:col-span-7">
+        <div class="inline-flex items-center gap-2 px-4 py-2 bg-brand/10 border border-brand/30 rounded-full mb-8" style="animation: fadeInUp 0.8s ease-out forwards;">
+          <span class="w-2 h-2 bg-brand rounded-full animate-pulse"></span>
+          <span class="text-brand text-xs font-bold uppercase tracking-[0.2em]">Набор 2026/2027 • Тверь</span>
+        </div>
+
+        <h1 class="font-display text-5xl sm:text-7xl md:text-8xl lg:text-[110px] font-bold uppercase leading-[0.85] tracking-tighter mb-6" style="animation: fadeInUp 0.8s ease-out 0.15s both;">
+          <span class="block text-white">СК</span>
+          <span class="block text-brand">ЛИГА</span>
+        </h1>
+
+        <p class="text-lg sm:text-xl md:text-2xl font-light text-gray-300 max-w-xl mb-4 leading-relaxed" style="animation: fadeInUp 0.8s ease-out 0.3s both;">
+          Футбол и единоборства для детей от <span class="text-brand font-semibold">3 лет</span> • Тверь
+        </p>
+
+        <p class="font-display text-2xl sm:text-3xl md:text-4xl font-bold uppercase tracking-wider mb-10" style="animation: fadeInUp 0.8s ease-out 0.4s both;">
+          <span class="text-brand">⚽</span> Футбол <span class="text-brand">•</span> 🥊 Единоборства <span class="text-brand">🥋</span>
+        </p>
+
+        <div class="flex flex-wrap gap-4" style="animation: fadeInUp 0.8s ease-out 0.55s both;">
+          <a href="#signup" class="group inline-flex items-center gap-3 px-8 py-4 bg-brand text-dark font-bold uppercase tracking-wider text-sm rounded-full hover:bg-brand-dark transition-all duration-300 hover:shadow-[0_0_30px_rgba(34,197,94,0.4)] hover:scale-105">
+            <iconify-icon icon="lucide:phone" width="18"></iconify-icon>
+            Записаться
+            <iconify-icon icon="lucide:arrow-right" width="16" class="group-hover:translate-x-1 transition-transform"></iconify-icon>
+          </a>
+          <a href="#programs" class="group inline-flex items-center gap-3 px-8 py-4 border-2 border-white/20 text-white font-bold uppercase tracking-wider text-sm rounded-full hover:border-brand hover:text-brand transition-all duration-300">
+            Направления
+            <iconify-icon icon="lucide:arrow-down" width="16" class="group-hover:translate-y-1 transition-transform"></iconify-icon>
+          </a>
+        </div>
+      </div>
+
+      <div class="lg:col-span-5 flex justify-center lg:justify-end" style="animation: fadeInRight 0.8s ease-out 0.5s both;">
+        <div class="relative">
+          <div class="bounce-ball drop-shadow-[0_0_50px_rgba(34,197,94,0.3)]">
+            <svg width="220" height="220" viewBox="0 0 60 60" class="sm:w-[280px] sm:h-[280px]">
+              <circle cx="30" cy="30" r="28" fill="#22C55E" stroke="#0d1f14" stroke-width="1.5"/>
+              <polygon points="30,8 33,18 42,18 35,24 37,34 30,28 23,34 25,24 18,18 27,18" fill="#0d1f14"/>
+            </svg>
+          </div>
+          <div class="absolute -bottom-6 left-1/2 -translate-x-1/2 w-32 h-4 bg-black/30 rounded-full blur-md"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 animate-pulse">
+    <span class="text-xs uppercase tracking-[0.2em] text-gray-500">Листайте</span>
+    <iconify-icon icon="lucide:chevron-down" width="20" class="text-brand"></iconify-icon>
+  </div>
+</section>
+
+<!-- ============================================ -->
+<!-- 2. MARQUEE TICKER -->
+<!-- ============================================ -->
+<section class="relative py-5 bg-brand overflow-hidden border-y-2 border-dark/20">
+  <div class="flex whitespace-nowrap marquee-track">
+    <div class="flex items-center gap-8 px-4">
+      <span class="font-display text-xl md:text-2xl font-bold uppercase tracking-wider text-dark">Футбол от 3 лет</span>
+      <span class="text-dark text-2xl">⚽</span>
+      <span class="font-display text-xl md:text-2xl font-bold uppercase tracking-wider text-dark">Бокс • Самбо • Тхэквондо</span>
+      <span class="text-dark text-2xl">🥊</span>
+      <span class="font-display text-xl md:text-2xl font-bold uppercase tracking-wider text-dark">Рукопашный бой • MMA</span>
+      <span class="text-dark text-2xl">🥋</span>
+      <span class="font-display text-xl md:text-2xl font-bold uppercase tracking-wider text-dark">9 филиалов в Твери</span>
+      <span class="text-dark text-2xl">📍</span>
+      <span class="font-display text-xl md:text-2xl font-bold uppercase tracking-wider text-dark">Первая тренировка бесплатно</span>
+      <span class="text-dark text-2xl">🎁</span>
+    </div>
+    <div class="flex items-center gap-8 px-4">
+      <span class="font-display text-xl md:text-2xl font-bold uppercase tracking-wider text-dark">Футбол от 3 лет</span>
+      <span class="text-dark text-2xl">⚽</span>
+      <span class="font-display text-xl md:text-2xl font-bold uppercase tracking-wider text-dark">Бокс • Самбо • Тхэквондо</span>
+      <span class="text-dark text-2xl">🥊</span>
+      <span class="font-display text-xl md:text-2xl font-bold uppercase tracking-wider text-dark">Рукопашный бой • MMA</span>
+      <span class="text-dark text-2xl">🥋</span>
+      <span class="font-display text-xl md:text-2xl font-bold uppercase tracking-wider text-dark">9 филиалов в Твери</span>
+      <span class="text-dark text-2xl">📍</span>
+      <span class="font-display text-xl md:text-2xl font-bold uppercase tracking-wider text-dark">Первая тренировка бесплатно</span>
+      <span class="text-dark text-2xl">🎁</span>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================ -->
+<!-- 3. PROGRAMS SECTION (Two directions) -->
+<!-- ============================================ -->
+<section id="programs" class="relative py-24 md:py-32 bg-pitch-dark overflow-hidden">
+  <div class="absolute inset-0 field-stripes opacity-30"></div>
+  
+  <div class="relative z-10 max-w-7xl mx-auto px-6 md:px-8">
+    <div class="animate-on-scroll mb-16 flex flex-col md:flex-row md:items-end md:justify-between gap-6">
+      <div>
+        <span class="inline-block text-brand text-xs font-bold uppercase tracking-[0.3em] mb-4">Направления</span>
+        <h2 class="font-display text-4xl md:text-5xl lg:text-6xl font-bold uppercase tracking-tighter leading-[0.95]">
+          Два <span class="text-brand">направления</span>
+        </h2>
+      </div>
+      <p class="text-gray-400 max-w-md md:text-right">Футбольный клуб и клуб единоборств под одной крышей — выберите то, что по душе вашему ребёнку</p>
+    </div>
+
+    <!-- Two big direction cards -->
+    <div class="grid md:grid-cols-2 gap-8 mb-20">
+      <!-- Football -->
+      <div class="animate-on-scroll sport-card p-8 md:p-10 card-hover group hover:border-brand/50 relative overflow-hidden">
+        <div class="absolute -top-16 -right-16 w-48 h-48 bg-brand/5 rounded-full"></div>
+        <div class="absolute top-6 right-6 w-16 h-16 opacity-10">
+          <svg viewBox="0 0 60 60"><circle cx="30" cy="30" r="28" fill="#22C55E" stroke="#0d1f14" stroke-width="2"/><polygon points="30,8 33,18 42,18 35,24 37,34 30,28 23,34 25,24 18,18 27,18" fill="#0d1f14"/></svg>
+        </div>
+        <div class="w-16 h-16 bg-brand rounded-3xl flex items-center justify-center mb-6 shadow-lg">
+          <span class="text-3xl">⚽</span>
+        </div>
+        <h3 class="font-display text-3xl md:text-4xl font-bold uppercase mb-3">Футбольный клуб</h3>
+        <p class="text-brand text-sm font-bold uppercase tracking-wider mb-4">«Лига»</p>
+        <p class="text-gray-400 leading-relaxed mb-6">
+          Тренировки по футболу и ОФП для развития координации, выносливости и командного духа. Дети от 3 до 18 лет — от первых шагов с мячом до участия в турнирах.
+        </p>
+        <div class="space-y-2 mb-6">
+          <div class="flex items-center gap-2 text-sm text-gray-300">
+            <iconify-icon icon="lucide:check" width="14" class="text-brand"></iconify-icon>
+            <span>ОФП и общая физподготовка</span>
+          </div>
+          <div class="flex items-center gap-2 text-sm text-gray-300">
+            <iconify-icon icon="lucide:check" width="14" class="text-brand"></iconify-icon>
+            <span>Развитие координации и выносливости</span>
+          </div>
+          <div class="flex items-center gap-2 text-sm text-gray-300">
+            <iconify-icon icon="lucide:check" width="14" class="text-brand"></iconify-icon>
+            <span>Командный дух и игровая практика</span>
+          </div>
+        </div>
+        <div class="flex items-center gap-2 text-brand text-xs font-bold uppercase tracking-wider">
+          <iconify-icon icon="lucide:ruby" width="14"></iconify-icon>
+          <span>от 2 500 ₽ / месяц</span>
+        </div>
+      </div>
+
+      <!-- Martial Arts -->
+      <div class="animate-on-scroll sport-card p-8 md:p-10 card-hover group hover:border-brand/50 relative overflow-hidden" style="transition-delay:0.1s">
+        <div class="absolute -top-16 -right-16 w-48 h-48 bg-brand/5 rounded-full"></div>
+        <div class="absolute top-6 right-6 w-16 h-16 opacity-10">
+          <span class="text-5xl">🥊</span>
+        </div>
+        <div class="w-16 h-16 bg-brand rounded-3xl flex items-center justify-center mb-6 shadow-lg">
+          <span class="text-3xl">🥋</span>
+        </div>
+        <h3 class="font-display text-3xl md:text-4xl font-bold uppercase mb-3">Клуб единоборств</h3>
+        <p class="text-brand text-sm font-bold uppercase tracking-wider mb-4">«Лига»</p>
+        <p class="text-gray-400 leading-relaxed mb-6">
+          Бокс, самбо, тхэквондо, армейский рукопашный бой и смешанные единоборства (MMA). Воспитание силы, дисциплины и уверенности в себе.
+        </p>
+        <div class="space-y-2 mb-6">
+          <div class="flex items-center gap-2 text-sm text-gray-300">
+            <iconify-icon icon="lucide:check" width="14" class="text-brand"></iconify-icon>
+            <span>Бокс и тхэквондо</span>
+          </div>
+          <div class="flex items-center gap-2 text-sm text-gray-300">
+            <iconify-icon icon="lucide:check" width="14" class="text-brand"></iconify-icon>
+            <span>Самбо и армейский рукопашный бой</span>
+          </div>
+          <div class="flex items-center gap-2 text-sm text-gray-300">
+            <iconify-icon icon="lucide:check" width="14" class="text-brand"></iconify-icon>
+            <span>Смешанные единоборства (MMA)</span>
+          </div>
+        </div>
+        <div class="flex items-center gap-2 text-brand text-xs font-bold uppercase tracking-wider">
+          <iconify-icon icon="lucide:ruby" width="14"></iconify-icon>
+          <span>≈ 2 500 ₽ / месяц</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Age groups -->
+    <div class="animate-on-scroll mb-20">
+      <h3 class="font-display text-2xl md:text-3xl font-bold uppercase tracking-tight mb-8">
+        Возрастные <span class="text-brand">группы</span>
+      </h3>
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+        <div class="sport-card p-6 text-center card-hover group hover:border-brand/50">
+          <div class="font-display text-4xl font-bold text-brand mb-2">3–4</div>
+          <div class="text-sm font-medium text-white mb-1">Малыши</div>
+          <p class="text-xs text-gray-500">Первые шаги в спорте</p>
+        </div>
+        <div class="sport-card p-6 text-center card-hover group hover:border-brand/50" style="transition-delay:0.05s">
+          <div class="font-display text-4xl font-bold text-brand mb-2">5–7</div>
+          <div class="text-sm font-medium text-white mb-1">Дошкольники</div>
+          <p class="text-xs text-gray-500">Базовая подготовка</p>
+        </div>
+        <div class="sport-card p-6 text-center card-hover group hover:border-brand/50" style="transition-delay:0.1s">
+          <div class="font-display text-4xl font-bold text-brand mb-2">8–12</div>
+          <div class="text-sm font-medium text-white mb-1">Школьники</div>
+          <p class="text-xs text-gray-500">Техника и тактика</p>
+        </div>
+        <div class="sport-card p-6 text-center card-hover group hover:border-brand/50" style="transition-delay:0.15s">
+          <div class="font-display text-4xl font-bold text-brand mb-2">13–18</div>
+          <div class="text-sm font-medium text-white mb-1">Подростки</div>
+          <p class="text-xs text-gray-500">Соревновательный уровень</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- What's included -->
+    <div class="animate-on-scroll">
+      <h3 class="font-display text-2xl md:text-3xl font-bold uppercase tracking-tight mb-8">
+        Что входит в <span class="text-brand">тренировки</span>
+      </h3>
+      <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        <div class="sport-card p-6 group hover:border-brand/40 transition-all duration-300 card-hover">
+          <div class="w-14 h-14 bg-brand/10 rounded-2xl flex items-center justify-center mb-4 group-hover:bg-brand/20 transition-colors">
+            <iconify-icon icon="lucide:circle-dot" width="24" class="text-brand"></iconify-icon>
+          </div>
+          <h4 class="font-semibold text-white mb-2">Футбольное мастерство</h4>
+          <p class="text-xs text-gray-500">Дриблинг, пас, удары, тактика, игра на мини-площадках</p>
+        </div>
+        <div class="sport-card p-6 group hover:border-brand/40 transition-all duration-300 card-hover">
+          <div class="w-14 h-14 bg-brand/10 rounded-2xl flex items-center justify-center mb-4 group-hover:bg-brand/20 transition-colors">
+            <iconify-icon icon="lucide:zap" width="24" class="text-brand"></iconify-icon>
+          </div>
+          <h4 class="font-semibold text-white mb-2">ОФП</h4>
+          <p class="text-xs text-gray-500">Выносливость, скорость, ловкость с 3-х лет</p>
+        </div>
+        <div class="sport-card p-6 group hover:border-brand/40 transition-all duration-300 card-hover">
+          <div class="w-14 h-14 bg-brand/10 rounded-2xl flex items-center justify-center mb-4 group-hover:bg-brand/20 transition-colors">
+            <iconify-icon icon="lucide:activity" width="24" class="text-brand"></iconify-icon>
+          </div>
+          <h4 class="font-semibold text-white mb-2">Техника единоборств</h4>
+          <p class="text-xs text-gray-500">Стойки, удары, броски, защита</p>
+        </div>
+        <div class="sport-card p-6 group hover:border-brand/40 transition-all duration-300 card-hover">
+          <div class="w-14 h-14 bg-brand/10 rounded-2xl flex items-center justify-center mb-4 group-hover:bg-brand/20 transition-colors">
+            <iconify-icon icon="lucide:music" width="24" class="text-brand"></iconify-icon>
+          </div>
+          <h4 class="font-semibold text-white mb-2">Дисциплина и дух</h4>
+          <p class="text-xs text-gray-500">Уверенность, уважение, командный дух</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================ -->
+<!-- 4. STATS SECTION -->
+<!-- ============================================ -->
+<section class="relative py-20 bg-dark overflow-hidden">
+  <div class="absolute inset-0 field-stripes opacity-20"></div>
+  <div class="relative z-10 max-w-7xl mx-auto px-6 md:px-8">
+    <div class="grid grid-cols-2 lg:grid-cols-4 gap-6">
+      <div class="animate-on-scroll text-center p-6">
+        <div class="stat-number font-display text-6xl md:text-7xl font-bold text-brand mb-2" data-count="9">0</div>
+        <div class="text-xs font-medium uppercase tracking-[0.2em] text-gray-400">Филиалов в Твери</div>
+      </div>
+      <div class="animate-on-scroll text-center p-6" style="transition-delay:0.1s">
+        <div class="stat-number font-display text-6xl md:text-7xl font-bold text-brand mb-2">3+</div>
+        <div class="text-xs font-medium uppercase tracking-[0.2em] text-gray-400">Возраст начала</div>
+      </div>
+      <div class="animate-on-scroll text-center p-6" style="transition-delay:0.2s">
+        <div class="stat-number font-display text-6xl md:text-7xl font-bold text-brand mb-2">2</div>
+        <div class="text-xs font-medium uppercase tracking-[0.2em] text-gray-400">Направления</div>
+      </div>
+      <div class="animate-on-scroll text-center p-6" style="transition-delay:0.3s">
+        <div class="font-display text-6xl md:text-7xl font-bold text-brand mb-2">🏆</div>
+        <div class="text-xs font-medium uppercase tracking-[0.2em] text-gray-400">Профессиональные тренеры</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================ -->
+<!-- 5. ABOUT SECTION -->
+<!-- ============================================ -->
+<section id="about" class="relative py-24 md:py-32 overflow-hidden">
+  <div class="absolute inset-0 bg-gradient-to-b from-dark to-pitch-dark"></div>
+  <div class="absolute inset-0 field-stripes opacity-20"></div>
+  
+  <div class="relative z-10 max-w-7xl mx-auto px-6 md:px-8">
+    <div class="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+      <div class="animate-on-scroll from-left order-2 lg:order-1">
+        <div class="relative group">
+          <div class="absolute -inset-4 bg-brand/5 rounded-3xl -z-10 blur-xl"></div>
+          <div class="relative overflow-hidden rounded-3xl border border-white/10">
+            <img src="https://picsum.photos/seed/liga-tver-sport/700/500.jpg" alt="Дети на тренировке" class="w-full h-[400px] md:h-[500px] object-cover group-hover:scale-105 transition-transform duration-700"/>
+            <div class="absolute inset-0 bg-gradient-to-t from-dark via-transparent to-transparent"></div>
+            <div class="absolute bottom-6 left-6 right-6">
+              <div class="flex items-center gap-3">
+                <div class="w-12 h-12 bg-brand rounded-2xl flex items-center justify-center shadow-lg">
+                  <iconify-icon icon="lucide:shield-check" width="24" class="text-dark"></iconify-icon>
+                </div>
+                <div>
+                  <p class="font-display text-lg font-bold uppercase">Сеть центров</p>
+                  <p class="font-display text-lg font-bold uppercase text-brand">спортивного развития</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="absolute -top-2 -right-2 w-8 h-8 bg-brand rounded-full"></div>
+          <div class="absolute -bottom-2 -left-2 w-8 h-8 bg-brand rounded-full"></div>
+        </div>
+      </div>
+
+      <div class="animate-on-scroll from-right order-1 lg:order-2">
+        <span class="inline-block text-brand text-xs font-bold uppercase tracking-[0.3em] mb-4">О клубе</span>
+        <h2 class="font-display text-4xl md:text-5xl lg:text-6xl font-bold uppercase tracking-tighter leading-[0.95] mb-8">
+          Спортивный клуб<br><span class="text-brand">«Лига»</span>
+        </h2>
+        <p class="text-lg md:text-xl font-light text-gray-300 leading-relaxed mb-6">
+          Спортивный клуб <strong class="text-brand font-semibold">«Лига»</strong> в Твери — это сеть центров спортивного развития, которая специализируется на тренировках по футболу и единоборствам для детей от 3 до 18 лет.
+        </p>
+        <p class="text-base text-gray-400 leading-relaxed mb-8">
+          Клуб ориентирован как на общее физическое развитие малышей, так и на подготовку будущих чемпионов. Профессиональные тренеры, которые знают своё дело на 100%, помогут вашему ребёнку раскрыть потенциал.
+        </p>
+        
+        <div class="space-y-4">
+          <div class="flex items-start gap-4 group p-3 rounded-2xl hover:bg-white/5 transition-all duration-300">
+            <div class="flex-shrink-0 w-11 h-11 bg-brand/10 border border-brand/30 rounded-2xl flex items-center justify-center group-hover:bg-brand group-hover:border-brand transition-all duration-300">
+              <iconify-icon icon="lucide:users" width="18" class="text-brand group-hover:text-dark transition-colors"></iconify-icon>
+            </div>
+            <div>
+              <h4 class="font-semibold text-white mb-1">Зачисление детей от 3+</h4>
+              <p class="text-sm text-gray-500">Мальчики и девочки — футбол и единоборства</p>
+            </div>
+          </div>
+          <div class="flex items-start gap-4 group p-3 rounded-2xl hover:bg-white/5 transition-all duration-300">
+            <div class="flex-shrink-0 w-11 h-11 bg-brand/10 border border-brand/30 rounded-2xl flex items-center justify-center group-hover:bg-brand group-hover:border-brand transition-all duration-300">
+              <iconify-icon icon="lucide:award" width="18" class="text-brand group-hover:text-dark transition-colors"></iconify-icon>
+            </div>
+            <div>
+              <h4 class="font-semibold text-white mb-1">Профессиональные тренеры</h4>
+              <p class="text-sm text-gray-500">Специалисты, которые знают своё дело на 100%</p>
+            </div>
+          </div>
+          <div class="flex items-start gap-4 group p-3 rounded-2xl hover:bg-white/5 transition-all duration-300">
+            <div class="flex-shrink-0 w-11 h-11 bg-brand/10 border border-brand/30 rounded-2xl flex items-center justify-center group-hover:bg-brand group-hover:border-brand transition-all duration-300">
+              <iconify-icon icon="lucide:map-pin" width="18" class="text-brand group-hover:text-dark transition-colors"></iconify-icon>
+            </div>
+            <div>
+              <h4 class="font-semibold text-white mb-1">9 филиалов в Твери</h4>
+              <p class="text-sm text-gray-500">Отделения в разных районах города</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================ -->
+<!-- 6. PRICES SECTION -->
+<!-- ============================================ -->
+<section id="prices" class="relative py-24 md:py-32 bg-pitch-dark overflow-hidden">
+  <div class="absolute inset-0 field-stripes opacity-25"></div>
+  
+  <div class="relative z-10 max-w-7xl mx-auto px-6 md:px-8">
+    <div class="animate-on-scroll mb-16 text-center">
+      <span class="inline-block text-brand text-xs font-bold uppercase tracking-[0.3em] mb-4">Стоимость</span>
+      <h2 class="font-display text-4xl md:text-5xl lg:text-6xl font-bold uppercase tracking-tighter leading-[0.95]">
+        Цены и <span class="text-brand">условия</span>
+      </h2>
+    </div>
+
+    <div class="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+      <div class="animate-on-scroll sport-card p-8 md:p-10 card-hover group hover:border-brand/50 relative overflow-hidden">
+        <div class="absolute top-6 right-6 text-5xl opacity-20">⚽</div>
+        <div class="w-14 h-14 bg-brand rounded-2xl flex items-center justify-center mb-6 shadow-lg">
+          <span class="text-2xl">⚽</span>
+        </div>
+        <h3 class="font-display text-2xl font-bold uppercase mb-2">Футбольный клуб</h3>
+        <p class="text-brand text-sm font-bold uppercase tracking-wider mb-6">«Лига»</p>
+        <div class="flex items-baseline gap-2 mb-6">
+          <span class="font-display text-5xl font-bold text-brand">2 500–2 800</span>
+          <span class="text-gray-400 text-sm">₽ / месяц</span>
+        </div>
+        <ul class="space-y-3 text-gray-400 text-sm mb-6">
+          <li class="flex items-center gap-2">
+            <iconify-icon icon="lucide:check" width="14" class="text-brand"></iconify-icon>
+            <span>Футбол и ОФП для детей от 3 лет</span>
+          </li>
+          <li class="flex items-center gap-2">
+            <iconify-icon icon="lucide:check" width="14" class="text-brand"></iconify-icon>
+            <span>Развитие координации и выносливости</span>
+          </li>
+          <li class="flex items-center gap-2">
+            <iconify-icon icon="lucide:check" width="14" class="text-brand"></iconify-icon>
+            <span>Командный дух и игровая практика</span>
+          </li>
+        </ul>
+      </div>
+
+      <div class="animate-on-scroll sport-card p-8 md:p-10 card-hover group hover:border-brand/50 relative overflow-hidden" style="transition-delay:0.1s">
+        <div class="absolute top-6 right-6 text-5xl opacity-20">🥊</div>
+        <div class="w-14 h-14 bg-brand rounded-2xl flex items-center justify-center mb-6 shadow-lg">
+          <span class="text-2xl">🥋</span>
+        </div>
+        <h3 class="font-display text-2xl font-bold uppercase mb-2">Клуб единоборств</h3>
+        <p class="text-brand text-sm font-bold uppercase tracking-wider mb-6">«Лига»</p>
+        <div class="flex items-baseline gap-2 mb-6">
+          <span class="font-display text-5xl font-bold text-brand">≈ 2 500</span>
+          <span class="text-gray-400 text-sm">₽ / месяц</span>
+        </div>
+        <ul class="space-y-3 text-gray-400 text-sm mb-6">
+          <li class="flex items-center gap-2">
+            <iconify-icon icon="lucide:check" width="14" class="text-brand"></iconify-icon>
+            <span>Бокс, самбо, тхэквондо</span>
+          </li>
+          <li class="flex items-center gap-2">
+            <iconify-icon icon="lucide:check" width="14" class="text-brand"></iconify-icon>
+            <span>Армейский рукопашный бой</span>
+          </li>
+          <li class="flex items-center gap-2">
+            <iconify-icon icon="lucide:check" width="14" class="text-brand"></iconify-icon>
+            <span>Смешанные единоборства (MMA)</span>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Conditions -->
+    <div class="grid md:grid-cols-3 gap-6 mt-12 max-w-4xl mx-auto">
+      <div class="animate-on-scroll sport-card p-6 flex items-start gap-4">
+        <div class="w-12 h-12 bg-brand rounded-2xl flex items-center justify-center shadow-lg flex-shrink-0">
+          <iconify-icon icon="lucide:gift" width="20" class="text-dark"></iconify-icon>
+        </div>
+        <div>
+          <h4 class="font-display text-base font-bold uppercase mb-1">Бесплатно</h4>
+          <p class="text-xs text-gray-400">Первая пробная тренировка для всех направлений</p>
+        </div>
+      </div>
+      <div class="animate-on-scroll sport-card p-6 flex items-start gap-4" style="transition-delay:0.05s">
+        <div class="w-12 h-12 bg-brand rounded-2xl flex items-center justify-center shadow-lg flex-shrink-0">
+          <iconify-icon icon="lucide:percent" width="20" class="text-dark"></iconify-icon>
+        </div>
+        <div>
+          <h4 class="font-display text-base font-bold uppercase mb-1">Скидки</h4>
+          <p class="text-xs text-gray-400">Гибкая система скидок для семей и при оплате за несколько месяцев</p>
+        </div>
+      </div>
+      <div class="animate-on-scroll sport-card p-6 flex items-start gap-4" style="transition-delay:0.1s">
+        <div class="w-12 h-12 bg-brand rounded-2xl flex items-center justify-center shadow-lg flex-shrink-0">
+          <iconify-icon icon="lucide:calendar-check" width="20" class="text-dark"></iconify-icon>
+        </div>
+        <div>
+          <h4 class="font-display text-base font-bold uppercase mb-1">Перерасчёт</h4>
+          <p class="text-xs text-gray-400">Перерасчёт по болезни с предоставлением справки</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================ -->
+<!-- 7. COACHES SECTION -->
+<!-- ============================================ -->
+<section id="coaches" class="relative py-24 md:py-32 bg-dark overflow-hidden">
+  <div class="absolute inset-0">
+    <img src="https://picsum.photos/seed/liga-tver-coach/1400/800.jpg" alt="" class="w-full h-full object-cover opacity-[0.07]"/>
+  </div>
+  <div class="absolute inset-0 field-stripes opacity-20"></div>
+
+  <div class="relative z-10 max-w-7xl mx-auto px-6 md:px-8">
+    <div class="animate-on-scroll mb-16 text-center">
+      <span class="inline-block text-brand text-xs font-bold uppercase tracking-[0.3em] mb-4">Тренерский состав</span>
+      <h2 class="font-display text-4xl md:text-5xl lg:text-6xl font-bold uppercase tracking-tighter leading-[0.95]">
+        Профессиональная <span class="text-brand">команда</span>
+      </h2>
+    </div>
+
+    <div class="grid md:grid-cols-3 gap-6 mb-12">
+      <div class="animate-on-scroll sport-card p-8 card-hover group hover:border-brand/40 text-center">
+        <div class="w-20 h-20 mx-auto bg-brand rounded-3xl flex items-center justify-center shadow-lg mb-6 group-hover:scale-110 transition-transform duration-300">
+          <iconify-icon icon="lucide:award" width="36" class="text-dark"></iconify-icon>
+        </div>
+        <h4 class="font-display text-xl font-bold uppercase mb-3">Профессиональные тренеры</h4>
+        <p class="text-sm text-gray-400 leading-relaxed">
+          Специалисты, которые знают своё дело на 100%. Опытные наставники по футболу и единоборствам.
+        </p>
+      </div>
+      <div class="animate-on-scroll sport-card p-8 card-hover group hover:border-brand/40 text-center" style="transition-delay:0.1s">
+        <div class="w-20 h-20 mx-auto bg-brand rounded-3xl flex items-center justify-center shadow-lg mb-6 group-hover:scale-110 transition-transform duration-300">
+          <iconify-icon icon="lucide:crown" width="36" class="text-dark"></iconify-icon>
+        </div>
+        <h4 class="font-display text-xl font-bold uppercase mb-3">Индивидуальный подход</h4>
+        <p class="text-sm text-gray-400 leading-relaxed">
+          Каждый ребёнок получает достаточно тренерского внимания. Развиваем сильные стороны и работаем над слабыми.
+        </p>
+      </div>
+      <div class="animate-on-scroll sport-card p-8 card-hover group hover:border-brand/40 text-center" style="transition-delay:0.2s">
+        <div class="w-20 h-20 mx-auto bg-brand rounded-3xl flex items-center justify-center shadow-lg mb-6 group-hover:scale-110 transition-transform duration-300">
+          <iconify-icon icon="lucide:heart-handshake" width="36" class="text-dark"></iconify-icon>
+        </div>
+        <h4 class="font-display text-xl font-bold uppercase mb-3">Дисциплина и уважение</h4>
+        <p class="text-sm text-gray-400 leading-relaxed">
+          Воспитываем дисциплину без жёсткого давления, формируем уважение к соперникам и командный дух.
+        </p>
+      </div>
+    </div>
+
+    <div class="animate-on-scroll grid grid-cols-2 md:grid-cols-4 gap-4">
+      <div class="overflow-hidden rounded-3xl border border-white/10 aspect-square">
+        <img src="https://picsum.photos/seed/liga-tver-kid-football/400/400.jpg" alt="Футбол" class="w-full h-full object-cover hover:scale-110 transition-transform duration-700"/>
+      </div>
+      <div class="overflow-hidden rounded-3xl border border-white/10 aspect-square">
+        <img src="https://picsum.photos/seed/liga-tver-martial/400/400.jpg" alt="Единоборства" class="w-full h-full object-cover hover:scale-110 transition-transform duration-700"/>
+      </div>
+      <div class="overflow-hidden rounded-3xl border border-white/10 aspect-square">
+        <img src="https://picsum.photos/seed/liga-tver-kids-team/400/400.jpg" alt="Команда" class="w-full h-full object-cover hover:scale-110 transition-transform duration-700"/>
+      </div>
+      <div class="overflow-hidden rounded-3xl border border-white/10 aspect-square">
+        <img src="https://picsum.photos/seed/liga-tver-coach-kids/400/400.jpg" alt="Тренер с детьми" class="w-full h-full object-cover hover:scale-110 transition-transform duration-700"/>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================ -->
+<!-- 8. BRANCHES SECTION -->
+<!-- ============================================ -->
+<section id="branches" class="relative py-24 md:py-32 bg-pitch-dark overflow-hidden">
+  <div class="absolute inset-0 field-stripes opacity-30"></div>
+  
+  <div class="relative z-10 max-w-7xl mx-auto px-6 md:px-8">
+    <div class="animate-on-scroll mb-16">
+      <span class="inline-block text-brand text-xs font-bold uppercase tracking-[0.3em] mb-4">География</span>
+      <div class="flex flex-col md:flex-row md:items-end md:justify-between gap-6">
+        <h2 class="font-display text-4xl md:text-5xl lg:text-6xl font-bold uppercase tracking-tighter leading-[0.95]">
+          Наши <span class="text-brand">филиалы</span>
+        </h2>
+        <p class="text-gray-400 max-w-md md:text-right">
+          Около 9 филиалов в разных районах Твери — подберите удобный зал рядом с домом
+        </p>
+      </div>
+    </div>
+
+    <div class="grid md:grid-cols-2 gap-x-8 gap-y-3">
+      <div class="animate-on-scroll flex items-center gap-4 p-4 sport-card card-hover group hover:border-brand/40">
+        <div class="branch-marker w-10 h-10 rounded-2xl flex items-center justify-center font-display font-bold text-sm flex-shrink-0">1</div>
+        <div class="flex-1">
+          <h4 class="font-display text-base font-bold uppercase">Заволжский район</h4>
+          <p class="text-xs text-gray-500">ул. Зинаиды Коноплянниковой, д. 4 (основная база единоборств)</p>
+        </div>
+        <iconify-icon icon="lucide:map-pin" width="16" class="text-brand/40 group-hover:text-brand transition-colors"></iconify-icon>
+      </div>
+      <div class="animate-on-scroll flex items-center gap-4 p-4 sport-card card-hover group hover:border-brand/40" style="transition-delay:0.05s">
+        <div class="branch-marker w-10 h-10 rounded-2xl flex items-center justify-center font-display font-bold text-sm flex-shrink-0">2</div>
+        <div class="flex-1">
+          <h4 class="font-display text-base font-bold uppercase">Пролетарский район</h4>
+          <p class="text-xs text-gray-500">проспект Николая Корыткова, д. 40а</p>
+        </div>
+        <iconify-icon icon="lucide:map-pin" width="16" class="text-brand/40 group-hover:text-brand transition-colors"></iconify-icon>
+      </div>
+      <div class="animate-on-scroll flex items-center gap-4 p-4 sport-card card-hover group hover:border-brand/40" style="transition-delay:0.1s">
+        <div class="branch-marker w-10 h-10 rounded-2xl flex items-center justify-center font-display font-bold text-sm flex-shrink-0">3</div>
+        <div class="flex-1">
+          <h4 class="font-display text-base font-bold uppercase">Пролетарский район</h4>
+          <p class="text-xs text-gray-500">ул. Виноградова, д. 4</p>
+        </div>
+        <iconify-icon icon="lucide:map-pin" width="16" class="text-brand/40 group-hover:text-brand transition-colors"></iconify-icon>
+      </div>
+      <div class="animate-on-scroll flex items-center gap-4 p-4 sport-card card-hover group hover:border-brand/40" style="transition-delay:0.15s">
+        <div class="branch-marker w-10 h-10 rounded-2xl flex items-center justify-center font-display font-bold text-sm flex-shrink-0">4</div>
+        <div class="flex-1">
+          <h4 class="font-display text-base font-bold uppercase">Московский район</h4>
+          <p class="text-xs text-gray-500">Октябрьский проспект, д. 57</p>
+        </div>
+        <iconify-icon icon="lucide:map-pin" width="16" class="text-brand/40 group-hover:text-brand transition-colors"></iconify-icon>
+      </div>
+      <div class="animate-on-scroll flex items-center gap-4 p-4 sport-card card-hover group hover:border-brand/40" style="transition-delay:0.2s">
+        <div class="branch-marker w-10 h-10 rounded-2xl flex items-center justify-center font-display font-bold text-sm flex-shrink-0">5</div>
+        <div class="flex-1">
+          <h4 class="font-display text-base font-bold uppercase">Московский район</h4>
+          <p class="text-xs text-gray-500">ул. Вагжанова, д. 2</p>
+        </div>
+        <iconify-icon icon="lucide:map-pin" width="16" class="text-brand/40 group-hover:text-brand transition-colors"></iconify-icon>
+      </div>
+      <div class="animate-on-scroll flex items-center gap-4 p-4 sport-card card-hover group hover:border-brand/40" style="transition-delay:0.25s">
+        <div class="branch-marker w-10 h-10 rounded-2xl flex items-center justify-center font-display font-bold text-sm flex-shrink-0">6</div>
+        <div class="flex-1">
+          <h4 class="font-display text-base font-bold uppercase">Центральный район</h4>
+          <p class="text-xs text-gray-500">пр-т Победы, д. 39а</p>
+        </div>
+        <iconify-icon icon="lucide:map-pin" width="16" class="text-brand/40 group-hover:text-brand transition-colors"></iconify-icon>
+      </div>
+      <div class="animate-on-scroll flex items-center gap-4 p-4 sport-card card-hover group hover:border-brand/40" style="transition-delay:0.3s">
+        <div class="branch-marker w-10 h-10 rounded-2xl flex items-center justify-center font-display font-bold text-sm flex-shrink-0">7</div>
+        <div class="flex-1">
+          <h4 class="font-display text-base font-bold uppercase">2-я улица Шмидта</h4>
+          <p class="text-xs text-gray-500">2-я улица Шмидта, д. 16</p>
+        </div>
+        <iconify-icon icon="lucide:map-pin" width="16" class="text-brand/40 group-hover:text-brand transition-colors"></iconify-icon>
+      </div>
+      <div class="animate-on-scroll flex items-center gap-4 p-4 sport-card card-hover group hover:border-brand/40 md:col-span-2" style="transition-delay:0.35s">
+        <div class="branch-marker w-10 h-10 rounded-2xl flex items-center justify-center font-display font-bold text-sm flex-shrink-0">+</div>
+        <div class="flex-1">
+          <h4 class="font-display text-base font-bold uppercase">Другие залы города</h4>
+          <p class="text-xs text-gray-500">Уточните ближайший филиал по телефону или в группе ВКонтакте</p>
+        </div>
+        <iconify-icon icon="lucide:map-pin" width="16" class="text-brand/40 group-hover:text-brand transition-colors"></iconify-icon>
+      </div>
+    </div>
+
+    <div class="animate-on-scroll text-center mt-12">
+      <p class="text-sm text-gray-500 mb-4">Отделения находятся в разных районах Твери — множество вариантов групп, в которых подберёте удобное расписание</p>
+      <div class="inline-flex items-center gap-2 px-5 py-2.5 bg-brand/10 border border-brand/30 rounded-full">
+        <iconify-icon icon="lucide:clock" width="16" class="text-brand"></iconify-icon>
+        <span class="text-sm text-gray-300">Запись по телефону: <strong class="text-white">+7 (904) 003-32-22</strong></span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================ -->
+<!-- 9. SIGNUP SECTION -->
+<!-- ============================================ -->
+<section id="signup" class="relative py-24 md:py-32 bg-dark overflow-hidden">
+  <div class="absolute inset-0 field-stripes opacity-20"></div>
+  <div class="absolute top-10 right-[10%] w-24 h-24 opacity-[0.08] spin-slow">
+    <svg viewBox="0 0 60 60"><circle cx="30" cy="30" r="28" fill="#22C55E" stroke="#0d1f14" stroke-width="2"/><polygon points="30,8 33,18 42,18 35,24 37,34 30,28 23,34 25,24 18,18 27,18" fill="#0d1f14"/></svg>
+  </div>
+
+  <div class="relative z-10 max-w-5xl mx-auto px-6 md:px-8">
+    <div class="grid lg:grid-cols-2 gap-12 items-center">
+      <div class="animate-on-scroll from-left">
+        <div class="mb-6 bounce-ball inline-block drop-shadow-[0_0_30px_rgba(34,197,94,0.2)]">
+          <svg width="70" height="70" viewBox="0 0 60 60">
+            <circle cx="30" cy="30" r="28" fill="#22C55E" stroke="#0d1f14" stroke-width="2.5"/>
+            <polygon points="30,8 33,18 42,18 35,24 37,34 30,28 23,34 25,24 18,18 27,18" fill="#0d1f14"/>
+          </svg>
+        </div>
+        <h2 class="font-display text-4xl md:text-5xl font-bold uppercase tracking-tighter leading-[0.95] mb-6">
+          Запишите ребёнка<br>в <span class="text-brand">СК «Лига»</span>
+        </h2>
+        <p class="text-lg text-gray-400 mb-8 leading-relaxed">
+          Первая пробная тренировка — бесплатно. Оставьте заявку, и мы подберём группу рядом с домом!
+        </p>
+
+        <div class="space-y-3">
+          <a href="tel:+79040033222" class="flex items-center gap-4 p-4 sport-card hover:border-brand/40 transition-all duration-300 group">
+            <div class="w-12 h-12 bg-brand rounded-2xl flex items-center justify-center flex-shrink-0">
+              <iconify-icon icon="lucide:phone" width="20" class="text-dark"></iconify-icon>
+            </div>
+            <div>
+              <p class="text-xs uppercase tracking-wider text-gray-500 mb-1">Телефон</p>
+              <p class="font-semibold text-white group-hover:text-brand transition-colors">+7 (904) 003-32-22</p>
+            </div>
+          </a>
+          <a href="tel:+79040060204" class="flex items-center gap-4 p-4 sport-card hover:border-brand/40 transition-all duration-300 group">
+            <div class="w-12 h-12 bg-brand rounded-2xl flex items-center justify-center flex-shrink-0">
+              <iconify-icon icon="lucide:phone" width="20" class="text-dark"></iconify-icon>
+            </div>
+            <div>
+              <p class="text-xs uppercase tracking-wider text-gray-500 mb-1">Телефон</p>
+              <p class="font-semibold text-white group-hover:text-brand transition-colors">+7 (904) 006-02-04</p>
+            </div>
+          </a>
+          <a href="https://vk.com/liga_tver" target="_blank" class="flex items-center gap-4 p-4 sport-card border-brand/30 hover:border-brand transition-all duration-300 group pulse-glow">
+            <div class="w-12 h-12 bg-brand rounded-2xl flex items-center justify-center flex-shrink-0">
+              <iconify-icon icon="lucide:message-circle" width="20" class="text-dark"></iconify-icon>
+            </div>
+            <div>
+              <p class="text-xs uppercase tracking-wider text-gray-500 mb-1">ВКонтакте</p>
+              <p class="font-semibold text-white group-hover:text-brand transition-colors">Группа «Лига» Тверь</p>
+            </div>
+          </a>
+        </div>
+      </div>
+
+      <div class="animate-on-scroll from-right">
+        <div class="sport-card p-8">
+          <h3 class="font-display text-xl font-bold uppercase mb-6">Оставить заявку</h3>
+          <form onsubmit="event.preventDefault(); showToast('Заявка отправлена! Мы свяжемся с вами.'); this.reset();" class="space-y-4">
+            <div>
+              <label class="block text-xs uppercase tracking-wider text-gray-500 mb-2">Имя родителя</label>
+              <input type="text" required placeholder="Как к вам обращаться" class="w-full px-4 py-3 bg-dark/50 border border-white/10 rounded-2xl text-white placeholder-gray-600 focus:border-brand focus:outline-none transition-colors"/>
+            </div>
+            <div>
+              <label class="block text-xs uppercase tracking-wider text-gray-500 mb-2">Телефон</label>
+              <input type="tel" required placeholder="+7 (___) ___-__-__" class="w-full px-4 py-3 bg-dark/50 border border-white/10 rounded-2xl text-white placeholder-gray-600 focus:border-brand focus:outline-none transition-colors"/>
+            </div>
+            <div>
+              <label class="block text-xs uppercase tracking-wider text-gray-500 mb-2">Направление</label>
+              <select required class="w-full px-4 py-3 bg-dark/50 border border-white/10 rounded-2xl text-white focus:border-brand focus:outline-none transition-colors appearance-none cursor-pointer">
+                <option value="" class="bg-dark">Выберите направление</option>
+                <option class="bg-dark">⚽ Футбол</option>
+                <option class="bg-dark">🥊 Бокс</option>
+                <option class="bg-dark">🥋 Самбо</option>
+                <option class="bg-dark">🥋 Тхэквондо</option>
+                <option class="bg-dark">🥋 Армейский рукопашный бой</option>
+                <option class="bg-dark">🥋 MMA</option>
+              </select>
+            </div>
+            <div>
+              <label class="block text-xs uppercase tracking-wider text-gray-500 mb-2">Возраст ребёнка</label>
+              <select required class="w-full px-4 py-3 bg-dark/50 border border-white/10 rounded-2xl text-white focus:border-brand focus:outline-none transition-colors appearance-none cursor-pointer">
+                <option value="" class="bg-dark">Выберите возраст</option>
+                <option class="bg-dark">3–4 года</option>
+                <option class="bg-dark">5–7 лет</option>
+                <option class="bg-dark">8–12 лет</option>
+                <option class="bg-dark">13–18 лет</option>
+              </select>
+            </div>
+            <div>
+              <label class="block text-xs uppercase tracking-wider text-gray-500 mb-2">Удобный филиал</label>
+              <select class="w-full px-4 py-3 bg-dark/50 border border-white/10 rounded-2xl text-white focus:border-brand focus:outline-none transition-colors appearance-none cursor-pointer">
+                <option value="" class="bg-dark">Не знаю / подберите</option>
+                <option class="bg-dark">Заволжский (Коноплянниковой, 4)</option>
+                <option class="bg-dark">Пролетарский (Корыткова, 40а)</option>
+                <option class="bg-dark">Пролетарский (Виноградова, 4)</option>
+                <option class="bg-dark">Московский (Октябрьский пр-т, 57)</option>
+                <option class="bg-dark">Московский (Вагжанова, 2)</option>
+                <option class="bg-dark">Центральный (пр-т Победы, 39а)</option>
+                <option class="bg-dark">2-я улица Шмидта, 16</option>
+              </select>
+            </div>
+            <button type="submit" class="w-full px-8 py-4 bg-brand text-dark font-bold uppercase tracking-wider text-sm rounded-full hover:bg-brand-dark transition-all duration-300 hover:shadow-[0_0_30px_rgba(34,197,94,0.4)] hover:scale-[1.02]">
+              Отправить заявку
+            </button>
+            <p class="text-xs text-gray-600 text-center">Нажимая кнопку, вы соглашаетесь на обработку персональных данных</p>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <div class="animate-on-scroll mt-12 flex flex-wrap items-center justify-center gap-6 px-6 py-3 sport-card text-sm text-gray-500">
+      <span class="flex items-center gap-2"><iconify-icon icon="lucide:credit-card" width="16" class="text-brand/60"></iconify-icon> Карта</span>
+      <span class="flex items-center gap-2"><iconify-icon icon="lucide:banknote" width="16" class="text-brand/60"></iconify-icon> Наличные</span>
+      <span class="flex items-center gap-2"><iconify-icon icon="lucide:percent" width="16" class="text-brand/60"></iconify-icon> Скидки</span>
+      <span class="flex items-center gap-2"><iconify-icon icon="lucide:calendar-check" width="16" class="text-brand/60"></iconify-icon> Перерасчёт по болезни</span>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================ -->
+<!-- 10. CONTACTS + FOOTER -->
+<!-- ============================================ -->
+<section id="contacts" class="relative py-16 bg-pitch-dark overflow-hidden">
+  <div class="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-brand/40 to-transparent"></div>
+  <div class="absolute inset-0 field-stripes opacity-20"></div>
+  
+  <div class="relative z-10 max-w-7xl mx-auto px-6 md:px-8">
+    <div class="grid md:grid-cols-3 gap-8 items-center">
+      <div>
+        <div class="flex items-center gap-3 mb-4">
+          <svg viewBox="0 0 40 40" class="w-9 h-9">
+            <circle cx="20" cy="20" r="18" fill="#22C55E" stroke="#0d1f14" stroke-width="2"/>
+            <polygon points="20,6 23,14 32,14 25,20 27,28 20,24 13,28 15,20 8,14 17,14" fill="#0d1f14"/>
+          </svg>
+          <span class="font-display text-xl font-bold tracking-wide">СК <span class="text-brand">ЛИГА</span></span>
+        </div>
+        <p class="text-sm text-gray-500 leading-relaxed">
+          Спортивный клуб «Лига» в Твери. Футбол и единоборства для детей от 3 лет. Открыт приём на сезон 2026/2027.
+        </p>
+      </div>
+
+      <div class="text-center">
+        <div class="flex flex-col items-center gap-2">
+          <a href="tel:+79040033222" class="font-display text-2xl font-bold text-brand hover:text-brand-dark transition-colors">
+            +7 (904) 003-32-22
+          </a>
+          <a href="tel:+79040060204" class="font-display text-xl font-bold text-brand hover:text-brand-dark transition-colors">
+            +7 (904) 006-02-04
+          </a>
+          <a href="mailto:liga.tver@mail.ru" class="text-sm text-gray-400 hover:text-brand transition-colors">
+            liga.tver@mail.ru
+          </a>
+        </div>
+      </div>
+
+      <div class="flex flex-col items-end gap-3">
+        <a href="https://vk.com/liga_tver" target="_blank" class="inline-flex items-center gap-2 px-6 py-3 bg-brand text-dark font-bold uppercase tracking-wider text-xs rounded-full hover:bg-brand-dark transition-all duration-300 hover:shadow-[0_0_25px_rgba(34,197,94,0.3)] hover:scale-105">
+          <iconify-icon icon="lucide:message-circle" width="16"></iconify-icon>
+          ВКонтакте
+        </a>
+        <a href="https://vk.com/liga_tver" target="_blank" class="inline-flex items-center gap-2 text-sm text-gray-400 hover:text-brand transition-colors">
+          <iconify-icon icon="lucide:external-link" width="14"></iconify-icon>
+          Группа «Лига» Тверь
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer class="relative py-8 border-t border-white/5 bg-dark">
+  <div class="max-w-7xl mx-auto px-6 md:px-8">
+    <div class="flex flex-col md:flex-row items-center justify-between gap-4">
+      <p class="text-xs text-gray-600">
+        © 2025 СК «Лига». Футбол и единоборства для детей от 3 лет. Тверь.
+      </p>
+      <div class="flex items-center gap-4">
+        <span class="text-xs text-gray-600">Футбол</span>
+        <span class="text-gray-700">•</span>
+        <span class="text-xs text-gray-600">Бокс</span>
+        <span class="text-gray-700">•</span>
+        <span class="text-xs text-gray-600">Самбо</span>
+        <span class="text-gray-700">•</span>
+        <span class="text-xs text-gray-600">Тхэквондо</span>
+        <span class="text-gray-700">•</span>
+        <span class="text-xs text-gray-600">MMA</span>
+      </div>
+      <div class="flex items-center gap-1">
+        <span class="text-xs text-gray-600">Футбол и единоборства</span>
+        <span class="text-brand text-xs">⚽🥊</span>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<!-- FLOATING VK BUTTON -->
+<a href="https://vk.com/liga_tver" target="_blank" id="vkBtn" class="fixed bottom-6 right-6 z-50 w-16 h-16 bg-brand rounded-full flex items-center justify-center shadow-[0_0_30px_rgba(34,197,94,0.3)] hover:shadow-[0_0_40px_rgba(34,197,94,0.5)] hover:scale-110 transition-all duration-300 opacity-0 translate-y-4" style="transition: opacity 0.4s, transform 0.4s;">
+  <iconify-icon icon="lucide:message-circle" width="28" class="text-dark"></iconify-icon>
+</a>
+
+<!-- TOAST NOTIFICATION -->
+<div id="toast" class="toast fixed bottom-24 left-1/2 -translate-x-1/2 z-[70] px-6 py-3 sport-card border-brand/30 shadow-xl">
+  <p class="text-sm text-white flex items-center gap-2">
+    <iconify-icon icon="lucide:check-circle" width="16" class="text-brand"></iconify-icon>
+    <span id="toastMessage">Сообщение отправлено!</span>
+  </p>
+</div>
+
+<script>
+function toggleMenu() {
+  const menu = document.getElementById('mobileMenu');
+  const lines = document.querySelectorAll('.burger-line');
+  menu.classList.toggle('open');
+  
+  if (menu.classList.contains('open')) {
+    lines[0].style.transform = 'rotate(45deg) translateY(8px)';
+    lines[1].style.opacity = '0';
+    lines[2].style.transform = 'rotate(-45deg) translateY(-8px)';
+    document.body.style.overflow = 'hidden';
+  } else {
+    lines[0].style.transform = '';
+    lines[1].style.opacity = '1';
+    lines[2].style.transform = '';
+    document.body.style.overflow = '';
+  }
+}
+
+const navbar = document.getElementById('navbar');
+const vkBtn = document.getElementById('vkBtn');
+
+window.addEventListener('scroll', () => {
+  if (window.scrollY > 80) {
+    navbar.style.background = 'rgba(13,31,20,0.92)';
+    navbar.style.backdropFilter = 'blur(16px)';
+    navbar.style.borderBottom = '1px solid rgba(34,197,94,0.1)';
+  } else {
+    navbar.style.background = 'transparent';
+    navbar.style.backdropFilter = 'none';
+    navbar.style.borderBottom = 'none';
+  }
+  
+  if (window.scrollY > 500) {
+    vkBtn.style.opacity = '1';
+    vkBtn.style.transform = 'translateY(0)';
+  } else {
+    vkBtn.style.opacity = '0';
+    vkBtn.style.transform = 'translateY(16px)';
+  }
+});
+
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('visible');
+    }
+  });
+}, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+
+document.querySelectorAll('.animate-on-scroll').forEach(el => {
+  observer.observe(el);
+});
+
+const statObserver = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      const el = entry.target;
+      const target = parseInt(el.dataset.count);
+      if (!target) return;
+      let current = 0;
+      const increment = target / 30;
+      const timer = setInterval(() => {
+        current += increment;
+        if (current >= target) {
+          el.textContent = target;
+          clearInterval(timer);
+        } else {
+          el.textContent = Math.floor(current);
+        }
+      }, 40);
+      statObserver.unobserve(el);
+    }
+  });
+}, { threshold: 0.5 });
+
+document.querySelectorAll('.stat-number[data-count]').forEach(el => {
+  statObserver.observe(el);
+});
+
+function showToast(message) {
+  const toast = document.getElementById('toast');
+  const toastMsg = document.getElementById('toastMessage');
+  toastMsg.textContent = message;
+  toast.classList.add('show');
+  setTimeout(() => toast.classList.remove('show'), 3000);
+}
+
+document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+  anchor.addEventListener('click', function(e) {
+    const target = document.querySelector(this.getAttribute('href'));
+    if (target) {
+      e.preventDefault();
+      target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  });
+});
+</script>
+
+</body>
+</html>
